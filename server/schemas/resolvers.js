@@ -40,21 +40,17 @@ const resolvers = {
 
       return { token, user };
     },
-    saveBook: async (parent, { authors, description, title, bookId, image }, context) => {
-      console.log('logged in user: ', context.user);
+    saveBook: async (parent, { authors, description, title, bookId, image, link }, context) => {
+      
 
       if (context.user) {
-        const userInfo = {authors, description, title, bookId, image}
-        console.log('userInfo: ', userInfo)
+        const userInfo = {authors, description, title, bookId, image, link}
+   
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: userInfo } },
           { new: true }
         )
-        
-        console.log('updated: ', updatedUser)
-        
-        
         return updatedUser;
       }
 

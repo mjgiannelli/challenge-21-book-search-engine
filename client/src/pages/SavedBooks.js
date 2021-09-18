@@ -12,12 +12,8 @@ const SavedBooks = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
-  console.log('loading', loading)
-
   const userData = data?.me || {};
 
-  console.log('data', data);
-  console.log(userData);
   if (loading) {
     return <div>Loading...</div>;
   }
