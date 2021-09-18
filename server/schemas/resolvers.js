@@ -43,16 +43,20 @@ const resolvers = {
       return { token, user };
     },
     saveBook: async (parent, { authors, description, title, bookId, image }, context) => {
-      console.log(context.user);
+      console.log('logged in user: ', context.user);
 
       if (context.user) {
+        const userInfo = {authors, description, title, bookId, image}
+        console.log('userInfo: ', userInfo)
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedBooks: { authors, description, title, bookId, image } } },
+          { $addToSet: { savedBooks: userInfo } },
           { new: true }
         )
-          .populate('savedBooks')
-
+        
+        console.log('updated: ', updatedUser)
+        
+        
         return updatedUser;
       }
 
@@ -65,7 +69,6 @@ const resolvers = {
           { $pull: { savedBooks: { bookId: bookId } } },
           { new: true }
         )
-          .populate('savedBooks')
 
         return updatedUser;
       }
