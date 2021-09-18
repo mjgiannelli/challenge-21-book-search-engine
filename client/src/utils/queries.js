@@ -13,6 +13,7 @@ export const QUERY_ME = gql`
             bookId
             image
             title
+            link
         }
     }
 }
