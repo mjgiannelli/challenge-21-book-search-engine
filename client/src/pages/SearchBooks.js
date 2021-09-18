@@ -46,6 +46,7 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        link: book.volumeInfo.infoLink || ''
       }));
 
       setSearchedBooks(bookData);
@@ -66,11 +67,11 @@ const SearchBooks = () => {
       return false;
     }
 
-    const {authors, bookId, description, image, title} = bookToSave
+    const {authors, bookId, description, image, title, link} = bookToSave
 
     try {
       await saveBook({
-        variables: { authors, bookId, description, image, title }
+        variables: { authors, bookId, description, image, title, link }
       });
 
       // if book successfully saves to user's account, save book id to state
@@ -124,6 +125,9 @@ const SearchBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
+                  <Card.Text>
+                    <a href={book.link} target='_blank'>Click this link for info on this book!</a>
+                  </Card.Text>
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
